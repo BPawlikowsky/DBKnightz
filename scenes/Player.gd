@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export var speed = 40
 
-var packedball = preload("res://scenes/Ball.tscn")
+var packedball = load("res://scenes/Ball.tscn")
 
 var move_left = "ui_left" setget set_move_left
 var move_right = "ui_right" setget set_move_right

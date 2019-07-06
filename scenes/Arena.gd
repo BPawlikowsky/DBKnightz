@@ -16,7 +16,6 @@ func _ready():
 	get_child(4).name = "Player02"
 	get_child(4).set_position(Vector2(get_viewport_rect().size.x - 100, get_viewport_rect().size.y/2))
 	
-	
 	$Player02.set_move_left("ui_2_left")
 	$Player02.set_move_right("ui_2_right")
 	$Player02.set_move_up("ui_2_up")
