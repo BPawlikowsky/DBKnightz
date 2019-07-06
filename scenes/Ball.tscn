@@ -13,7 +13,7 @@ radius = 3.86996
 [node name="Ball" type="RigidBody2D" groups=[
 "balls",
 ]]
-z_index = 1
+z_index = 2
 collision_layer = 2
 collision_mask = 2
 mode = 2

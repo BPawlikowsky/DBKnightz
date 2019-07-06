@@ -9,10 +9,24 @@ var move_right = "ui_right" setget set_move_right
 var move_up = "ui_up" setget set_move_up
 var move_down = "ui_down" setget set_move_down
 var throw_ball = "ui_accept" setget set_throw_ball
+var activate_sheld = "ui_shield" setget set_shield
+
+var cooldown = 0 setget ,get_cooldown
+var shield_up = false setget set_shield_up, get_shield_up
 
 var score = 0 setget set_score, get_score
 
+func set_shield_up(status):
+	shield_up = status
 
+func get_shield_up():
+	return shield_up
+
+func get_cooldown():
+	return cooldown
+
+func set_shield(new_shield):
+	activate_sheld = new_shield
 
 func set_move_left(new_left):
 	move_left = new_left
@@ -47,11 +61,13 @@ func _process(delta):
 		velocity.y -= 1
 	if Input.is_action_pressed(move_down):
 		velocity.y += 1
-	if Input.is_action_just_pressed(throw_ball):
+	if Input.is_action_just_pressed(throw_ball) and cooldown == 0 and !shield_up:
 		var ball = packedball.instance()
 		add_child(ball)
-		
-	
+		cooldown = 60
 	
 	velocity = velocity.normalized() * speed
 	move_and_slide(velocity)
+	
+	if cooldown > 0:
+		cooldown -= 1

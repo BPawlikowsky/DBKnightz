@@ -21,3 +21,26 @@ func _ready():
 	$Player02.set_move_up("ui_2_up")
 	$Player02.set_move_down("ui_2_down")
 	$Player02.set_throw_ball("ui_2_accept")
+	$Player02/Shield.rotation = deg2rad(180)
+	
+func _process(delta):
+	print(get_child(3).get_cooldown())
+	if get_child(3).get_cooldown() == 0:
+		if Input.is_action_pressed("ui_shield"):
+			get_child(3).set_shield_up(true)
+			get_child(3).get_node("Shield").visible = true
+			get_child(3).get_node("Shield/CollisionShape2D").disabled = false
+		else:
+			get_child(3).set_shield_up(false)
+			get_child(3).get_node("Shield").visible = false
+			get_child(3).get_node("Shield/CollisionShape2D").disabled = true
+	
+	if get_child(4).get_cooldown() == 0:
+		if Input.is_action_pressed("ui_2_shield"):
+			get_child(4).set_shield_up(true)
+			get_child(4).get_node("Shield").visible = true
+			get_child(4).get_node("Shield/CollisionShape2D").disabled = false
+		else:
+			get_child(4).set_shield_up(false)
+			get_child(4).get_node("Shield").visible = false
+			get_child(4).get_node("Shield/CollisionShape2D").disabled = true
