@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -14,9 +14,6 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
-
-[sub_resource type="CircleShape2D" id=3]
-radius = 32.3294
 
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
@@ -36,16 +33,14 @@ frames = SubResource( 2 )
 position = Vector2( -35, 0 )
 
 [node name="Shield" type="StaticBody2D" parent="."]
+editor/display_folded = true
 collision_layer = 2
 collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
-position = Vector2( 22, 0 )
-scale = Vector2( 0.4, 1 )
-z_index = 2
-shape = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="Shield"]
 position = Vector2( 10, 0 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Shield"]
+polygon = PoolVector2Array( 34, -12, 30, -20, 26, -28, 22, -32, 18, -32, 18, 32, 22, 32, 26, 28, 30, 20, 34, 12 )

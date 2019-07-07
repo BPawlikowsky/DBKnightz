@@ -10,7 +10,7 @@ func _ready():
 	player02 = player_packered.instance()
 	add_child(player01)
 	get_child(3).name = "Player01"
-	get_child(3).set_position(Vector2(100, get_viewport_rect().size.y/2))
+	get_child(3).set_position(Vector2(100, get_viewport_rect().size.y / 2))
 	
 	add_child(player02)
 	get_child(4).name = "Player02"
@@ -24,7 +24,7 @@ func _ready():
 	$Player02/Shield.rotation = deg2rad(180)
 	
 func _process(delta):
-	print(get_child(3).get_cooldown())
+	
 	if get_child(3).get_cooldown() == 0:
 		if Input.is_action_pressed("ui_shield"):
 			get_child(3).set_shield_up(true)
