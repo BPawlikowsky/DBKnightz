@@ -1,15 +1,14 @@
-extends RigidBody2D
+extends KinematicBody2D
 
 export var speed = 600
+var velocity = Vector2(speed, 0)
 
 func _ready():
 	
 	if get_parent().name == "Player01":
 		translate(Vector2(40, 0))
-		linear_velocity = Vector2(speed, 0)
 	elif get_parent().name == "Player02":
 		translate(Vector2(-40, 0))
-		linear_velocity = Vector2(-speed, 0)
 
 func _process(delta):
 	
@@ -22,6 +21,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	set_as_toplevel(true)
-	linear_velocity = linear_velocity.normalized() * speed * delta
-	
-	
+	var col = move_and_collide(velocity * delta)
+	if col:
+		var ref = col.remainder.bounce(col.normal)
+		velocity = velocity.bounce(col.normal)
+		move_and_collide(ref)
