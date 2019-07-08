@@ -11,7 +11,7 @@ var move_down = "ui_down" setget set_move_down
 var throw_ball = "ui_accept" setget set_throw_ball
 var activate_sheld = "ui_shield" setget set_shield
 
-var cooldown = 0 setget ,get_cooldown
+var cooldown = 0 setget set_cooldown, get_cooldown
 var shield_up = false setget set_shield_up, get_shield_up
 
 var score = 0 setget set_score, get_score
@@ -21,6 +21,9 @@ func set_shield_up(status):
 
 func get_shield_up():
 	return shield_up
+
+func set_cooldown(new_cooldown):
+	cooldown = new_cooldown
 
 func get_cooldown():
 	return cooldown
@@ -68,7 +71,7 @@ func _process(delta):
 		ball.connect("on_collision", get_parent(), "_on_ball_collision")
 		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
 		add_child(ball)
-		cooldown = 10
+		cooldown = 60
 	
 	velocity = velocity.normalized() * speed * delta
 	move_and_slide(velocity)
