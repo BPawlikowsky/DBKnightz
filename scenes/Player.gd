@@ -65,6 +65,8 @@ func _process(delta):
 		velocity.y += 1
 	if Input.is_action_just_pressed(throw_ball) and cooldown == 0 and !shield_up:
 		var ball = packedball.instance()
+		ball.connect("on_collision", get_parent(), "_on_ball_collision")
+		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
 		add_child(ball)
 		cooldown = 10
 	
