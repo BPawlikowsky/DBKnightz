@@ -1,14 +1,16 @@
 extends KinematicBody2D
 
 export var speed = 600
-var velocity = Vector2(speed, 0)
+var velocity = Vector2(0, 0)
 
 func _ready():
 	
 	if get_parent().name == "Player01":
 		translate(Vector2(40, 0))
+		velocity = Vector2(speed, 0)
 	elif get_parent().name == "Player02":
-		translate(Vector2(-40, 0))
+		translate(Vector2(-50, 0))
+		velocity = Vector2(-speed, 0)
 
 func _process(delta):
 	
@@ -21,8 +23,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	set_as_toplevel(true)
-	var col = move_and_collide(velocity * delta)
-	if col:
-		var ref = col.remainder.bounce(col.normal)
-		velocity = velocity.bounce(col.normal)
-		move_and_collide(ref)
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		var reflect = collision.remainder.bounce(collision.normal)
+		velocity = velocity.bounce(collision.normal)
+		move_and_collide(reflect)
