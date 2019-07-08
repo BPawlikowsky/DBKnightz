@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var speed = 40
+export var speed = 400
 
 var packedball = load("res://scenes/Ball.tscn")
 
@@ -52,7 +52,9 @@ func get_score():
 
 
 func _process(delta):
+	
 	var velocity = Vector2()
+	
 	if Input.is_action_pressed(move_left):
 		velocity.x -= 1
 	if Input.is_action_pressed(move_right):
@@ -64,9 +66,9 @@ func _process(delta):
 	if Input.is_action_just_pressed(throw_ball) and cooldown == 0 and !shield_up:
 		var ball = packedball.instance()
 		add_child(ball)
-		cooldown = 60
+		cooldown = 10
 	
-	velocity = velocity.normalized() * speed
+	velocity = velocity.normalized() * speed * delta
 	move_and_slide(velocity)
 	
 	if cooldown > 0:

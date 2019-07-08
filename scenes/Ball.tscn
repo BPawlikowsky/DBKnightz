@@ -5,7 +5,7 @@
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.0
-bounce = 1.0
+bounce = 4.0
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 3.86996
@@ -17,13 +17,15 @@ z_index = 2
 collision_layer = 2
 collision_mask = 2
 mode = 2
+mass = 3.62
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
+can_sleep = false
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-speed = 20000
+speed = 40000
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2( 2, 2 )
