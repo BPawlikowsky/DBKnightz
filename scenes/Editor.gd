@@ -6,6 +6,7 @@ func _on_player_ready():
 	$player_speedup_edit.text = str( get_node("/root/Arena/Player01").speedup_scale)
 	$player_countdown_edit.text = str( get_node("/root/Arena/Player01").cooldown)
 	$ball_speed_edit.text = str( get_node("/root/Arena/Player01").ball_speed)
+	$player_speeddown_edit.text = str( get_node("/root/Arena/Player01").inertia_factor)
 
 func _on_player_speedup_edit_text_changed(new_text):
 	
@@ -42,4 +43,9 @@ func _on_ball_speed_edit_focus_exited():
 
 func _on_player_countdown_edit_focus_exited():
 	$player_countdown_edit.text = str( get_node("/root/Arena/Player01").get_cooldown())
+	pass # Replace with function body.
+
+
+func _on_player_speeddown_edit_text_changed(new_text):
+	get_node("/root/Arena/Player01").inertia_factor = new_text.to_float()
 	pass # Replace with function body.

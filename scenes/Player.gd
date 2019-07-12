@@ -23,6 +23,8 @@ var score = 0 setget set_score, get_score
 var speedup = 0 
 export var speedup_scale = 100 setget set_speedup_scale, get_speedup_scale
 
+var inertia_factor = 0.95 setget set_inertia_factor, get_inertia_factor
+
 var inertia = Vector2()
 
 var signal_emitted = false
@@ -31,6 +33,9 @@ var ball_speed = 600 setget set_ball_speed, get_ball_speed
 
 
 ######################## Getters | Setters #############################
+
+func set_inertia_factor(new_factor): inertia_factor = new_factor
+func get_inertia_factor(): return inertia_factor
 
 func set_ball_speed(new_speed): ball_speed = new_speed
 func get_ball_speed(): return ball_speed
@@ -106,4 +111,4 @@ func movePlayer(delta):
 	
 	inertia = move_and_slide(velocity + inertia)
 	
-	inertia = inertia * 0.95
+	inertia = inertia * inertia_factor

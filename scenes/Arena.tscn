@@ -104,6 +104,23 @@ margin_bottom = 180.0
 focus_mode = 1
 text = "0"
 focus_mode = 1
+
+[node name="player_speeddown" type="Label" parent="Editor"]
+margin_top = 184.0
+margin_right = 121.0
+margin_bottom = 198.0
+text = "player_speeddown"
+
+[node name="player_speeddown_edit" type="LineEdit" parent="Editor"]
+margin_top = 202.0
+margin_right = 121.0
+margin_bottom = 226.0
+
+[node name="ShitBox" type="LineEdit" parent="Editor"]
+margin_top = 230.0
+margin_right = 121.0
+margin_bottom = 254.0
+text = "Shit box"
 [connection signal="focus_exited" from="Editor/player_speed_edit" to="Editor" method="_on_player_speed_edit_focus_exited"]
 [connection signal="text_changed" from="Editor/player_speed_edit" to="Editor" method="_on_player_speed_edit_text_changed"]
 [connection signal="focus_exited" from="Editor/player_speedup_edit" to="Editor" method="_on_player_speedup_edit_focus_exited"]
@@ -112,3 +129,4 @@ focus_mode = 1
 [connection signal="text_changed" from="Editor/player_countdown_edit" to="Editor" method="_on_player_countdown_edit_text_changed"]
 [connection signal="focus_exited" from="Editor/ball_speed_edit" to="Editor" method="_on_ball_speed_edit_focus_exited"]
 [connection signal="text_changed" from="Editor/ball_speed_edit" to="Editor" method="_on_ball_speed_edit_text_changed"]
+[connection signal="text_changed" from="Editor/player_speeddown_edit" to="Editor" method="_on_player_speeddown_edit_text_changed"]
