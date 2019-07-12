@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal player_ready
+
 export var speed = 400 setget set_speed, get_speed
 
 var packedball = load("res://scenes/Ball.tscn")
@@ -23,44 +25,51 @@ export var speedup_scale = 100 setget set_speedup_scale, get_speedup_scale
 
 var inertia = Vector2()
 
+var signal_emitted = false
+
+var ball_speed = 600 setget set_ball_speed, get_ball_speed
+
 
 ######################## Getters | Setters #############################
 
-func set_speed(new_speed): speed = new_speed
+func set_ball_speed(new_speed): ball_speed = new_speed
+func get_ball_speed(): return ball_speed
 
+func set_speed(new_speed): speed = new_speed
 func get_speed(): return speed
 
 func set_speedup_scale(new_speedup): speedup_scale = new_speedup
-
 func get_speedup_scale(): return speedup_scale
 
 func set_shield_up(status): shield_up = status
-
 func get_shield_up(): return shield_up
 
 func set_cooldown(new_cooldown): cooldown = new_cooldown
-
 func get_cooldown(): return cooldown
 
 func set_shield(new_shield): activate_sheld = new_shield
-
 func set_move_left(new_left): move_left = new_left
 
 func set_move_right(new_right): move_right = new_right
-
 func set_move_up(new_up): move_up = new_up
 
 func set_move_down(new_down): move_down = new_down
-
 func set_throw_ball(new_throw_ball): throw_ball = new_throw_ball
 
 func set_score(new_score): score = new_score
-
 func get_score(): return score
+
+func _ready():
+	connect("player_ready", get_node("/root/Arena/Editor"), "_on_player_ready")
+	
 
 ################ _PROCESS ####################
 
 func _process(delta):
+	
+	if !signal_emitted:
+		emit_signal("player_ready")
+		signal_emitted = true
 	
 	movePlayer(delta);
 	
@@ -86,6 +95,7 @@ func movePlayer(delta):
 		var ball = packedball.instance()
 		ball.connect("on_collision", get_parent(), "_on_ball_collision")
 		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
+		ball.set_speed(ball_speed)
 		add_child(ball)
 		cooldown = cooldown_time
 	

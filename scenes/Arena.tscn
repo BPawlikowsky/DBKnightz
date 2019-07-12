@@ -41,11 +41,14 @@ script = ExtResource( 4 )
 [node name="Balls" type="Node" parent="."]
 
 [node name="Editor" type="VBoxContainer" parent="."]
-margin_left = 596.0
-margin_top = 300.0
-margin_right = 717.0
-margin_bottom = 550.0
+margin_left = 638.959
+margin_top = 40.8135
+margin_right = 759.959
+margin_bottom = 290.814
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="player_speed" type="Label" parent="Editor"]
 margin_right = 121.0
@@ -56,7 +59,9 @@ text = "player_speed"
 margin_top = 18.0
 margin_right = 121.0
 margin_bottom = 42.0
+focus_mode = 1
 text = "0"
+focus_mode = 1
 
 [node name="player_speedup" type="Label" parent="Editor"]
 margin_top = 46.0
@@ -68,8 +73,42 @@ text = "player_speedup"
 margin_top = 64.0
 margin_right = 121.0
 margin_bottom = 88.0
+focus_mode = 1
 text = "0"
+focus_mode = 1
+
+[node name="player_countdown" type="Label" parent="Editor"]
+margin_top = 92.0
+margin_right = 121.0
+margin_bottom = 106.0
+text = "player_cooldown"
+
+[node name="player_countdown_edit" type="LineEdit" parent="Editor"]
+margin_top = 110.0
+margin_right = 121.0
+margin_bottom = 134.0
+focus_mode = 1
+text = "0"
+focus_mode = 1
+
+[node name="ball_speed" type="Label" parent="Editor"]
+margin_top = 138.0
+margin_right = 121.0
+margin_bottom = 152.0
+text = "ball_speed"
+
+[node name="ball_speed_edit" type="LineEdit" parent="Editor"]
+margin_top = 156.0
+margin_right = 121.0
+margin_bottom = 180.0
+focus_mode = 1
+text = "0"
+focus_mode = 1
 [connection signal="focus_exited" from="Editor/player_speed_edit" to="Editor" method="_on_player_speed_edit_focus_exited"]
 [connection signal="text_changed" from="Editor/player_speed_edit" to="Editor" method="_on_player_speed_edit_text_changed"]
 [connection signal="focus_exited" from="Editor/player_speedup_edit" to="Editor" method="_on_player_speedup_edit_focus_exited"]
 [connection signal="text_changed" from="Editor/player_speedup_edit" to="Editor" method="_on_player_speedup_edit_text_changed"]
+[connection signal="focus_exited" from="Editor/player_countdown_edit" to="Editor" method="_on_player_countdown_edit_focus_exited"]
+[connection signal="text_changed" from="Editor/player_countdown_edit" to="Editor" method="_on_player_countdown_edit_text_changed"]
+[connection signal="focus_exited" from="Editor/ball_speed_edit" to="Editor" method="_on_ball_speed_edit_focus_exited"]
+[connection signal="text_changed" from="Editor/ball_speed_edit" to="Editor" method="_on_ball_speed_edit_text_changed"]

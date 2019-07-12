@@ -8,27 +8,7 @@ var player02
 var player01_start_pos = Vector2()
 var player02_start_pos = Vector2()
 
-# Ball collision signals for future
-func _on_ball_collision(ball_collision):
-	#print("ball colided with" + ball_collision.collider.name)
-	pass
-
-# Reseting arena and players after a score
-func _reset_arena(which_player):
-	
-	# Delete all balls
-	for ball in get_tree().get_nodes_in_group("balls"):
-		ball.queue_free()
-	
-	# Reset Player01
-	$Player01.position = player01_start_pos
-	shield_down($Player01)
-	$Player01.set_cooldown(60)
-	
-	# Reset Player02
-	$Player02.position = player02_start_pos
-	shield_down($Player02)
-	$Player02.set_cooldown(60)
+################ _READY ###################
 
 func _ready():
 	
@@ -58,6 +38,8 @@ func _ready():
 	$Player02.set_throw_ball("ui_2_accept")
 	$Player02/Shield.rotation = deg2rad(180)
 
+################ _PROCESS ##################
+
 func _process(delta):
 	
 	if $Player01.get_cooldown() == 0:
@@ -71,6 +53,30 @@ func _process(delta):
 			shield_up($Player02)
 		else:
 			shield_down($Player02)
+
+################# CUSTOM FUNCS ###################
+
+# Ball collision signals for future
+func _on_ball_collision(ball_collision):
+	#print("ball colided with" + ball_collision.collider.name)
+	pass
+
+# Reseting arena and players after a score
+func _reset_arena(which_player):
+	
+	# Delete all balls
+	for ball in get_tree().get_nodes_in_group("balls"):
+		ball.queue_free()
+	
+	# Reset Player01
+	$Player01.position = player01_start_pos
+	shield_down($Player01)
+	$Player01.set_cooldown(60)
+	
+	# Reset Player02
+	$Player02.position = player02_start_pos
+	shield_down($Player02)
+	$Player02.set_cooldown(60)
 
 func shield_up(player):
 	player.set_shield_up(true)
