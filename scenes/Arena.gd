@@ -42,13 +42,13 @@ func _ready():
 	
 	# Add Player01 to scene and add name and position
 	add_child(player01)
-	get_child(4).name = "Player01"
-	get_child(4).set_position(player01_start_pos)
+	get_child(5).name = "Player01"
+	get_child(5).set_position(player01_start_pos)
 	
 	# Add Player02 to scene and add name and position
 	add_child(player02)
-	get_child(5).name = "Player02"
-	get_child(5).set_position(player02_start_pos)
+	get_child(6).name = "Player02"
+	get_child(6).set_position(player02_start_pos)
 	
 	# Player02 key setup and shield direction
 	$Player02.set_move_left("ui_2_left")

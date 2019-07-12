@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var speed = 400
+export var speed = 400 setget set_speed, get_speed
 
 var packedball = load("res://scenes/Ball.tscn")
 
@@ -11,52 +11,68 @@ var move_down = "ui_down" setget set_move_down
 var throw_ball = "ui_accept" setget set_throw_ball
 var activate_sheld = "ui_shield" setget set_shield
 
-var cooldown = 0 setget set_cooldown, get_cooldown
+var cooldown = 0 
+export var cooldown_time = 60 setget set_cooldown, get_cooldown
+
 var shield_up = false setget set_shield_up, get_shield_up
 
 var score = 0 setget set_score, get_score
 
-func set_shield_up(status):
-	shield_up = status
+var speedup = 0 
+export var speedup_scale = 100 setget set_speedup_scale, get_speedup_scale
 
-func get_shield_up():
-	return shield_up
-
-func set_cooldown(new_cooldown):
-	cooldown = new_cooldown
-
-func get_cooldown():
-	return cooldown
-
-func set_shield(new_shield):
-	activate_sheld = new_shield
-
-func set_move_left(new_left):
-	move_left = new_left
-
-func set_move_right(new_right):
-	move_right = new_right
-
-func set_move_up(new_up):
-	move_up = new_up
-
-func set_move_down(new_down):
-	move_down = new_down
-
-func set_throw_ball(new_throw_ball):
-	throw_ball = new_throw_ball
-
-func set_score(new_score):
-	score = new_score
-
-func get_score():
-	return score
+var inertia = Vector2()
 
 
+######################## Getters | Setters #############################
+
+func set_speed(new_speed): speed = new_speed
+
+func get_speed(): return speed
+
+func set_speedup_scale(new_speedup): speedup_scale = new_speedup
+
+func get_speedup_scale(): return speedup_scale
+
+func set_shield_up(status): shield_up = status
+
+func get_shield_up(): return shield_up
+
+func set_cooldown(new_cooldown): cooldown = new_cooldown
+
+func get_cooldown(): return cooldown
+
+func set_shield(new_shield): activate_sheld = new_shield
+
+func set_move_left(new_left): move_left = new_left
+
+func set_move_right(new_right): move_right = new_right
+
+func set_move_up(new_up): move_up = new_up
+
+func set_move_down(new_down): move_down = new_down
+
+func set_throw_ball(new_throw_ball): throw_ball = new_throw_ball
+
+func set_score(new_score): score = new_score
+
+func get_score(): return score
+
+################ _PROCESS ####################
 
 func _process(delta):
 	
+	movePlayer(delta);
+	
+	if cooldown > 0:
+		cooldown -= 1
+
+################ Custom Funcs ##################
+
+func movePlayer(delta):
 	var velocity = Vector2()
+	
+	if speedup < speed: speedup += speedup_scale
 	
 	if Input.is_action_pressed(move_left):
 		velocity.x -= 1
@@ -71,10 +87,13 @@ func _process(delta):
 		ball.connect("on_collision", get_parent(), "_on_ball_collision")
 		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
 		add_child(ball)
-		cooldown = 60
+		cooldown = cooldown_time
 	
-	velocity = velocity.normalized() * speed * delta
-	move_and_slide(velocity)
+	if velocity.x == 0 and velocity.y == 0:
+		speedup = 0
 	
-	if cooldown > 0:
-		cooldown -= 1
+	velocity = (velocity.normalized() * speedup * delta)
+	
+	inertia = move_and_slide(velocity + inertia)
+	
+	inertia = inertia * 0.95

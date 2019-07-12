@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/Arena.gd" type="Script" id=1]
 [ext_resource path="res://tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://scenes/Player01Score.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Player02Score.gd" type="Script" id=4]
+[ext_resource path="res://scenes/Editor.gd" type="Script" id=5]
 
 [node name="Arena" type="Node2D"]
 script = ExtResource( 1 )
@@ -38,3 +39,37 @@ text = "0"
 script = ExtResource( 4 )
 
 [node name="Balls" type="Node" parent="."]
+
+[node name="Editor" type="VBoxContainer" parent="."]
+margin_left = 596.0
+margin_top = 300.0
+margin_right = 717.0
+margin_bottom = 550.0
+script = ExtResource( 5 )
+
+[node name="player_speed" type="Label" parent="Editor"]
+margin_right = 121.0
+margin_bottom = 14.0
+text = "player_speed"
+
+[node name="player_speed_edit" type="LineEdit" parent="Editor"]
+margin_top = 18.0
+margin_right = 121.0
+margin_bottom = 42.0
+text = "0"
+
+[node name="player_speedup" type="Label" parent="Editor"]
+margin_top = 46.0
+margin_right = 121.0
+margin_bottom = 60.0
+text = "player_speedup"
+
+[node name="player_speedup_edit" type="LineEdit" parent="Editor"]
+margin_top = 64.0
+margin_right = 121.0
+margin_bottom = 88.0
+text = "0"
+[connection signal="focus_exited" from="Editor/player_speed_edit" to="Editor" method="_on_player_speed_edit_focus_exited"]
+[connection signal="text_changed" from="Editor/player_speed_edit" to="Editor" method="_on_player_speed_edit_text_changed"]
+[connection signal="focus_exited" from="Editor/player_speedup_edit" to="Editor" method="_on_player_speedup_edit_focus_exited"]
+[connection signal="text_changed" from="Editor/player_speedup_edit" to="Editor" method="_on_player_speedup_edit_text_changed"]
