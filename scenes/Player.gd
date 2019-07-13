@@ -24,15 +24,19 @@ var speedup = 0
 export var speedup_scale = 100 setget set_speedup_scale, get_speedup_scale
 
 var inertia_factor = 0.95 setget set_inertia_factor, get_inertia_factor
-
 var inertia = Vector2()
 
 var signal_emitted = false
 
 var ball_speed = 600 setget set_ball_speed, get_ball_speed
 
+var balls_hit_shield = 0 setget set_balls_hit_shield, get_balls_hit_shield
 
+var pass_delta
 ######################## Getters | Setters #############################
+
+func set_balls_hit_shield(new_set): balls_hit_shield = new_set
+func get_balls_hit_shield(): return balls_hit_shield
 
 func set_inertia_factor(new_factor): inertia_factor = new_factor
 func get_inertia_factor(): return inertia_factor
@@ -71,20 +75,28 @@ func _ready():
 ################ _PROCESS ####################
 
 func _process(delta):
-	
+	pass_delta = delta
 	if !signal_emitted:
 		emit_signal("player_ready")
 		signal_emitted = true
 	
-	movePlayer(delta);
+	movePlayer(delta, Vector2());
 	
 	if cooldown > 0:
 		cooldown -= 1
 
 ################ Custom Funcs ##################
 
-func movePlayer(delta):
-	var velocity = Vector2()
+func hitPlayer(dir):
+	movePlayer(pass_delta, dir)
+	
+
+func movePlayer(delta, velocity):
+	
+	if velocity != Vector2():
+		velocity = (velocity * delta * speed)
+		inertia = move_and_slide(velocity + inertia)
+		inertia = inertia * inertia_factor
 	
 	if speedup < speed: speedup += speedup_scale
 	
@@ -101,7 +113,7 @@ func movePlayer(delta):
 		ball.connect("on_collision", get_parent(), "_on_ball_collision")
 		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
 		ball.set_speed(ball_speed)
-		ball.position += Vector2(20, 0)
+		ball.position += Vector2(30, 0)
 		add_child(ball)
 		cooldown = cooldown_time
 	

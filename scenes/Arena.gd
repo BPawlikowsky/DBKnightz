@@ -8,6 +8,9 @@ var player02
 var player01_start_pos = Vector2()
 var player02_start_pos = Vector2()
 
+export var shield_hits = 4
+export var cooldown_shield_hit = 120
+
 ################ _READY ###################
 
 func _ready():
@@ -56,10 +59,31 @@ func _process(delta):
 
 ################# CUSTOM FUNCS ###################
 
-# Ball collision signals for future
+# Ball collision signals
 func _on_ball_collision(ball_collision):
-	#print("ball colided with" + ball_collision.collider.name)
-	pass
+	
+	# Push after ball hit player
+	if ball_collision.get_collider().is_in_group("players"):
+		
+		var collided_player = ball_collision.get_collider()
+		collided_player.hitPlayer(ball_collision.get_travel() * 4)
+		
+	
+	if ball_collision.get_collider().name == "Shield":
+		
+		var collided_player = ball_collision.get_collider().get_parent()
+		
+		print("Found shield! Player:" + str(collided_player.name) + " balls hit: " + str(collided_player.balls_hit_shield))
+		
+		collided_player.hitPlayer(ball_collision.get_travel())
+		
+		collided_player.balls_hit_shield += 1
+		
+		if collided_player.balls_hit_shield >= shield_hits:
+			
+			shield_down(collided_player)
+			collided_player.balls_hit_shield = 0
+			collided_player.set_cooldown(cooldown_shield_hit)
 
 # Reseting arena and players after a score
 func _reset_arena(which_player):
@@ -81,9 +105,9 @@ func _reset_arena(which_player):
 func shield_up(player):
 	player.set_shield_up(true)
 	player.get_node("Shield").visible = true
-	player.get_node("Shield/CollisionShape2D").disabled = false
+	player.get_node("Shield/ShieldCollider").disabled = false
 
 func shield_down(player):
 	player.set_shield_up(false)
 	player.get_node("Shield").visible = false
-	player.get_node("Shield/CollisionShape2D").disabled = true
+	player.get_node("Shield/ShieldCollider").disabled = true

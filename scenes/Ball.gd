@@ -38,6 +38,7 @@ func _process(delta):
 func _physics_process(delta):
 	set_as_toplevel(true)
 	var collision = move_and_collide(velocity * delta)
+	
 	if collision:
 		emit_signal("on_collision", collision)
 		var reflect = collision.remainder.bounce(collision.normal)
