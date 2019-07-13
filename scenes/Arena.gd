@@ -11,6 +11,11 @@ var player02_start_pos = Vector2()
 export var shield_hits = 4
 export var cooldown_shield_hit = 120
 
+var shield_speed
+var shield_slide
+var normal_speed
+var normal_slide
+
 ################ _READY ###################
 
 func _ready():
@@ -23,6 +28,10 @@ func _ready():
 	player01 = player_packered.instance()
 	player02 = player_packered.instance()
 	
+	normal_speed = player01.speed
+	normal_slide = player01.speedup_scale
+	shield_speed = int(player01.speed / 2)
+	shield_slide = int(player01.speedup_scale / 2)
 	# Add Player01 to scene and add name and position
 	add_child(player01)
 	get_child(5).name = "Player01"
@@ -68,7 +77,6 @@ func _on_ball_collision(ball_collision):
 		var collided_player = ball_collision.get_collider()
 		collided_player.hitPlayer(ball_collision.get_travel() * 4)
 		
-	
 	if ball_collision.get_collider().name == "Shield":
 		
 		var collided_player = ball_collision.get_collider().get_parent()
@@ -106,8 +114,10 @@ func shield_up(player):
 	player.set_shield_up(true)
 	player.get_node("Shield").visible = true
 	player.get_node("Shield/ShieldCollider").disabled = false
+	player.speed = shield_speed
 
 func shield_down(player):
+	player.speed = normal_speed
 	player.set_shield_up(false)
 	player.get_node("Shield").visible = false
 	player.get_node("Shield/ShieldCollider").disabled = true
