@@ -101,13 +101,14 @@ func movePlayer(delta):
 		ball.connect("on_collision", get_parent(), "_on_ball_collision")
 		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
 		ball.set_speed(ball_speed)
+		ball.position += Vector2(20, 0)
 		add_child(ball)
 		cooldown = cooldown_time
 	
 	if velocity.x == 0 and velocity.y == 0:
 		speedup = 0
 	
-	velocity = (velocity.normalized() * speedup * delta)
+	velocity = (velocity.normalized() * delta * speed)
 	
 	inertia = move_and_slide(velocity + inertia)
 	

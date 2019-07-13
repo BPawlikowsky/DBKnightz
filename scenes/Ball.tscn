@@ -10,8 +10,8 @@ radius = 3.86996
 "balls",
 ]]
 z_index = 2
-collision_layer = 2
-collision_mask = 2
+collision_layer = 3
+collision_mask = 3
 script = ExtResource( 1 )
 speed = 1000
 

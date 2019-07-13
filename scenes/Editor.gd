@@ -31,9 +31,7 @@ func _on_player_speedup_edit_focus_exited():
 	
 
 func _on_ball_speed_edit_text_changed(new_text):
-	var bodies = get_tree().get_nodes_in_group("balls")
-	for body in bodies:
-		body.set_speed(new_text.to_int())
+	get_node("/root/Arena/Player01").set_ball_speed(new_text.to_int())
 
 func _on_ball_speed_edit_focus_exited():
 	var bodies = get_tree().get_nodes_in_group("balls")
