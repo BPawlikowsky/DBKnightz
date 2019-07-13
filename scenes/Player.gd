@@ -20,8 +20,8 @@ var shield_up = false setget set_shield_up, get_shield_up
 
 var score = 0 setget set_score, get_score
 
-var speedup = 0 
 export var speedup_scale = 100 setget set_speedup_scale, get_speedup_scale
+var speedup = 0 
 
 var inertia_factor = 0.95 setget set_inertia_factor, get_inertia_factor
 var inertia = Vector2()
@@ -33,7 +33,8 @@ var ball_speed = 600 setget set_ball_speed, get_ball_speed
 var balls_hit_shield = 0 setget set_balls_hit_shield, get_balls_hit_shield
 
 var pass_delta
-######################## Getters | Setters #############################
+
+######################## GETTERS | SETTERS #############################
 
 func set_balls_hit_shield(new_set): balls_hit_shield = new_set
 func get_balls_hit_shield(): return balls_hit_shield
@@ -93,13 +94,16 @@ func hitPlayer(dir):
 
 func movePlayer(delta, velocity):
 	
+	#==# Push logic
 	if velocity != Vector2():
 		velocity = (velocity * delta * speed)
 		inertia = move_and_slide(velocity + inertia)
 		inertia = inertia * inertia_factor
 	
+	#==# Speedup meter
 	if speedup < speed: speedup += speedup_scale
 	
+	#==# Controls
 	if Input.is_action_pressed(move_left):
 		velocity.x -= 1
 	if Input.is_action_pressed(move_right):
@@ -117,9 +121,11 @@ func movePlayer(delta, velocity):
 		add_child(ball)
 		cooldown = cooldown_time
 	
+	#==# Stay still
 	if velocity.x == 0 and velocity.y == 0:
 		speedup = 0
 	
+	#==# actual movement
 	velocity = (velocity.normalized() * delta * speed)
 	
 	inertia = move_and_slide(velocity + inertia)
