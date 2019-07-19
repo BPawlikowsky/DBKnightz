@@ -1,12 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/Player.gd" type="Script" id=1]
-[ext_resource path="res://mPLAYER.png" type="Texture" id=2]
-[ext_resource path="res://mSHIELD.png" type="Texture" id=3]
+[ext_resource path="res://playa2.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Shield.gd" type="Script" id=3]
+[ext_resource path="res://mSHIELD.png" type="Texture" id=4]
+[ext_resource path="res://scenes/ShieldArea.gd" type="Script" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 23.45
 height = 96.0
+
+[sub_resource type="CircleShape2D" id=2]
 
 [node name="Player" type="KinematicBody2D" groups=[
 "players",
@@ -21,26 +25,37 @@ speed = 1000
 speedup_scale = 50
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 light_mask = 3
 position = Vector2( -20.45, 0 )
 z_index = 1
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="Sprite" parent="."]
+rotation = 1.5708
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="Anchor" type="Position2D" parent="."]
 position = Vector2( -35, 0 )
 
 [node name="Shield" type="StaticBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( 5, 0 )
 collision_layer = 2
 collision_mask = 2
+script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="Shield"]
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="ShieldCollider" type="CollisionPolygon2D" parent="Shield"]
 position = Vector2( 25, 0 )
 polygon = PoolVector2Array( 41, -16, 35, -46, 19, -70, -1, -91, -34, -109, -49, -104, -48, -93, -8, -64, 12, -24, 10, 20, -21, 75, -39, 95, -35, 106, -26, 109, 3, 89, 14, 78, 21, 66, 33, 40, 41, 14 )
+
+[node name="ShieldArea" type="Area2D" parent="."]
+scale = Vector2( 40, 40 )
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldArea"]
+shape = SubResource( 2 )
+[connection signal="body_entered" from="ShieldArea" to="Shield" method="_on_ShieldArea_body_entered"]

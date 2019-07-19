@@ -115,17 +115,15 @@ func movePlayer(delta, velocity):
 	
 	if name == "Player01" and get_parent().get_node("Player02") != null:
 		if position.dot(get_parent().get_node("Player02").position) != -1:
-			print(str(rotation))
-			var v1 =  get_angle_to(get_parent().get_node("Player02").position) + rotation 
 			
+			var v1 =  get_angle_to(get_parent().get_node("Player02").position) + rotation 
 			
 			set_rotation(v1)
 			
 	if name == "Player02" and get_parent().get_node("Player01") != null:
 		if position.dot(get_parent().get_node("Player01").position) != -1:
-			print(str(rotation))
-			var v1 =  get_angle_to(get_parent().get_node("Player01").position) + rotation 
 			
+			var v1 =  get_angle_to(get_parent().get_node("Player01").position) + rotation 
 			
 			set_rotation(v1)
 	
@@ -143,10 +141,17 @@ func movePlayer(delta, velocity):
 		ball.connect("on_collision", get_parent(), "_on_ball_collision")
 		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
 		ball.set_speed(ball_speed)
-		var v1 =  get_parent().get_node("Player02").position - position
-		var v2 = get_angle_to(get_parent().get_node("Player02").position.normalized() - position.normalized())
+		var v1
+		var v2
+		if name == "Player01":
+			v1 =  get_parent().get_node("Player02").position - position
+			v2 = get_angle_to(get_parent().get_node("Player02").position.normalized() - position.normalized())
+		if name == "Player02":
+			v1 =  get_parent().get_node("Player01").position - position
+			v2 = get_angle_to(get_parent().get_node("Player01").position.normalized() - position.normalized())
 		ball.position += Vector2(ball_pos, 0)
 		ball.velocity = v1*0.7
+		ball.velocity = v1.normalized() * ball.speed
 		ball.set_rotation(v2)
 		add_child(ball)
 		cooldown = cooldown_time
@@ -161,3 +166,4 @@ func movePlayer(delta, velocity):
 	inertia = move_and_slide(velocity + inertia)
 	
 	inertia = inertia * inertia_factor
+
