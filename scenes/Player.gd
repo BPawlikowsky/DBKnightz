@@ -34,7 +34,17 @@ var balls_hit_shield = 0 setget set_balls_hit_shield, get_balls_hit_shield
 
 var pass_delta
 
+var lives = 30 setget set_lives, get_lives
+
+var ball_pos = 50 setget set_ball_pos, get_ball_pos
+
 ######################## GETTERS | SETTERS #############################
+
+func set_ball_pos(new_pos): ball_pos = new_pos
+func get_ball_pos(): return ball_pos
+
+func set_lives(new_lives): lives = new_lives
+func get_lives(): return lives
 
 func set_balls_hit_shield(new_set): balls_hit_shield = new_set
 func get_balls_hit_shield(): return balls_hit_shield
@@ -103,6 +113,22 @@ func movePlayer(delta, velocity):
 	#==# Speedup meter
 	if speedup < speed: speedup += speedup_scale
 	
+	if name == "Player01" and get_parent().get_node("Player02") != null:
+		if position.dot(get_parent().get_node("Player02").position) != -1:
+			print(str(rotation))
+			var v1 =  get_angle_to(get_parent().get_node("Player02").position) + rotation 
+			
+			
+			set_rotation(v1)
+			
+	if name == "Player02" and get_parent().get_node("Player01") != null:
+		if position.dot(get_parent().get_node("Player01").position) != -1:
+			print(str(rotation))
+			var v1 =  get_angle_to(get_parent().get_node("Player01").position) + rotation 
+			
+			
+			set_rotation(v1)
+	
 	#==# Controls
 	if Input.is_action_pressed(move_left):
 		velocity.x -= 1
@@ -117,7 +143,11 @@ func movePlayer(delta, velocity):
 		ball.connect("on_collision", get_parent(), "_on_ball_collision")
 		ball.connect("on_stage_exit", get_parent(), "_reset_arena")
 		ball.set_speed(ball_speed)
-		ball.position += Vector2(30, 0)
+		var v1 =  get_parent().get_node("Player02").position - position
+		var v2 = get_angle_to(get_parent().get_node("Player02").position.normalized() - position.normalized())
+		ball.position += Vector2(ball_pos, 0)
+		ball.velocity = v1*0.7
+		ball.set_rotation(v2)
 		add_child(ball)
 		cooldown = cooldown_time
 	

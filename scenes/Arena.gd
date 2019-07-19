@@ -25,8 +25,8 @@ var winner_in_effect = false
 func _ready():
 	
 	#==# Initializing players start positions
-	player01_start_pos = Vector2(100, get_viewport_rect().size.y / 2)
-	player02_start_pos = Vector2(get_viewport_rect().size.x - 100, get_viewport_rect().size.y/2)
+	player01_start_pos = Vector2(200, get_viewport_rect().size.y / 2)
+	player02_start_pos = Vector2(get_viewport_rect().size.x - 200, get_viewport_rect().size.y/2)
 	
 	#==# Instancing players from PackedScene
 	player01 = player_packered.instance()
@@ -34,8 +34,8 @@ func _ready():
 	
 	normal_speed = player01.speed
 	normal_slide = player01.speedup_scale
-	shield_speed = int(player01.speed / 2)
-	shield_slide = int(player01.speedup_scale / 2)
+	shield_speed = int(player01.speed / 4)
+	shield_slide = int(player01.speedup_scale / 4)
 	#==# Add Player01 to scene and add name and position
 	add_child(player01)
 	get_child(5).name = "Player01"
@@ -53,6 +53,7 @@ func _ready():
 	$Player02.set_move_down("ui_2_down")
 	$Player02.set_throw_ball("ui_2_accept")
 	$Player02/Shield.rotation = deg2rad(180)
+	$Player02.ball_pos = -50
 	
 	#==# Winner board setup and hide
 	winner_board = winner_packed.instance()
@@ -86,20 +87,22 @@ func _process(delta):
 	if Input.is_action_just_released("ui_accept") and winner_in_effect:
 		$Winner_Board/Label.visible = false
 		winner_in_effect = false
-		$Player01.score = 0
-		$Player02.score = 0
+		$Player01.lives = 30
+		$Player02.lives = 30
 
 ################# CUSTOM FUNCS ###################
 
 #=======# WINNER #=======#
 func check_winner():
-	var how_much = 3
-	if $Player01.score == how_much:
+
+	if $Player01.lives == 0:
 		winner_in_effect = true
-		return "PLAYER 1"
-	elif $Player02.score == how_much:
-		winner_in_effect = true
+		_reset_arena()
 		return "PLAYER 2"
+	elif $Player02.lives == 0:
+		winner_in_effect = true
+		_reset_arena()
+		return "PLAYER 1"
 	else:
 		return "none"
 
@@ -107,11 +110,16 @@ func check_winner():
 #=======# BALL COLLISION SIGNALS #=======#
 func _on_ball_collision(ball_collision):
 	
+	ball_collision.local_shape.get_parent().ball_dur -= 1
+	
 	#==# Push after ball hit player
 	if ball_collision.get_collider().is_in_group("players"):
 		
 		var collided_player = ball_collision.get_collider()
 		collided_player.hitPlayer(ball_collision.get_travel() * 4)
+		collided_player.lives -= 1
+		print(collided_player.name + ": " + str(collided_player.lives))
+			
 	
 	#==# Shield fatigue and player push
 	if ball_collision.get_collider().name == "Shield":
@@ -136,7 +144,7 @@ func _on_ball_collision(ball_collision):
 			collided_player.set_cooldown(cooldown_shield_hit)
 
 #=======# RESETING ARENA AFTER A SCORE #=======#
-func _reset_arena(which_player):
+func _reset_arena():
 	
 	#==# Delete all balls
 	for ball in get_tree().get_nodes_in_group("balls"):

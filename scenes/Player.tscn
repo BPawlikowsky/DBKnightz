@@ -1,23 +1,17 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/Player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://shield.png" type="Texture" id=3]
+[ext_resource path="res://mPLAYER.png" type="Texture" id=2]
+[ext_resource path="res://mSHIELD.png" type="Texture" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 21.0
-
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
+radius = 23.45
+height = 96.0
 
 [node name="Player" type="KinematicBody2D" groups=[
 "players",
 ]]
+scale = Vector2( 0.5, 0.5 )
 z_index = 1
 script = ExtResource( 1 )
 __meta__ = {
@@ -27,24 +21,26 @@ speed = 1000
 speedup_scale = 50
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 light_mask = 3
+position = Vector2( -20.45, 0 )
 z_index = 1
 shape = SubResource( 1 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 2 )
+[node name="AnimatedSprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
 
 [node name="Anchor" type="Position2D" parent="."]
 position = Vector2( -35, 0 )
 
 [node name="Shield" type="StaticBody2D" parent="."]
+position = Vector2( 5, 0 )
 collision_layer = 2
 collision_mask = 2
 
 [node name="Sprite" type="Sprite" parent="Shield"]
-position = Vector2( 10, 0 )
-scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 
 [node name="ShieldCollider" type="CollisionPolygon2D" parent="Shield"]
-polygon = PoolVector2Array( 34, -12, 30, -22, 26, -28, 22, -32, 18, -32, 18, 32, 22, 32, 26, 28, 30, 22, 34, 12 )
+position = Vector2( 25, 0 )
+polygon = PoolVector2Array( 41, -16, 35, -46, 19, -70, -1, -91, -34, -109, -49, -104, -48, -93, -8, -64, 12, -24, 10, 20, -21, 75, -39, 95, -35, 106, -26, 109, 3, 89, 14, 78, 21, 66, 33, 40, 41, 14 )

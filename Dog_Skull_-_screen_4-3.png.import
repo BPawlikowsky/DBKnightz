@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shield.png-bdf8e401b772eb7c90cb1fa4b7e06cd1.stex"
+path="res://.import/Dog_Skull_-_screen_4-3.png-97b5b00f2e934881f3979f7bc399599f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://shield.png"
-dest_files=[ "res://.import/shield.png-bdf8e401b772eb7c90cb1fa4b7e06cd1.stex" ]
+source_file="res://Dog_Skull_-_screen_4-3.png"
+dest_files=[ "res://.import/Dog_Skull_-_screen_4-3.png-97b5b00f2e934881f3979f7bc399599f.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
