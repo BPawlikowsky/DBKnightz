@@ -146,10 +146,12 @@ func movePlayer(delta, velocity):
 		if name == "Player01":
 			v1 =  get_parent().get_node("Player02").position - position
 			v2 = get_angle_to(get_parent().get_node("Player02").position.normalized() - position.normalized())
+			ball.position += Vector2(ball_pos, 0)
 		if name == "Player02":
 			v1 =  get_parent().get_node("Player01").position - position
 			v2 = get_angle_to(get_parent().get_node("Player01").position.normalized() - position.normalized())
-		ball.position += Vector2(ball_pos, 0)
+			ball.position += Vector2(-ball_pos, 0)
+		
 		ball.velocity = v1*0.7
 		ball.velocity = v1.normalized() * ball.speed
 		ball.set_rotation(v2)
